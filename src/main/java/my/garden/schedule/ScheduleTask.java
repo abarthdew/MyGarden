@@ -16,51 +16,51 @@ import my.garden.daoImpl.ShoppingDAOImpl;
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class ScheduleTask {
 
-	private ThreadPoolTaskScheduler scheduler;
+  private ThreadPoolTaskScheduler scheduler;
 
-	@Autowired
-	ShoppingDAOImpl sdao;
+  @Autowired
+  ShoppingDAOImpl sdao;
 
-	private int count = 0;
-	
-	public int getCount() {
-		return count;
-	}
+  private int count = 0;
 
-	public void setCount(int count) {
-		this.count = count;
-	}
+  public int getCount() {
+    return count;
+  }
 
-	public void stopScheduler() {
-		scheduler.shutdown();
-	}
+  public void setCount(int count) {
+    this.count = count;
+  }
 
-	public void startScheduler(String orderNo) {
-		scheduler = new ThreadPoolTaskScheduler();
-		scheduler.initialize();
-		// 스케쥴러가 시작되는 부분 
-		scheduler.schedule(getRunnable(orderNo), getTrigger());
-	}
+  public void stopScheduler() {
+    scheduler.shutdown();
+  }
 
-	private Runnable getRunnable(String orderNo){
-		return () -> {
-			try {
-				count++;
-				System.out.println("스케줄러 왔음 + : " + count);
-				if(count==2) {
-					sdao.completeShipping(Long.parseLong(orderNo));
-					count=0;
-					this.stopScheduler();
-				}
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-		};
-	}
+  public void startScheduler(String orderNo) {
+    scheduler = new ThreadPoolTaskScheduler();
+    scheduler.initialize();
+    // 스케쥴러가 시작되는 부분
+    scheduler.schedule(getRunnable(orderNo), getTrigger());
+  }
 
-	private Trigger getTrigger() {
-		// 작업 주기 설정 
-		return new PeriodicTrigger(10, TimeUnit.MINUTES);
-	}
+  private Runnable getRunnable(String orderNo) {
+    return () -> {
+      try {
+        count++;
+        System.out.println("스케줄러 왔음 + : " + count);
+        if (count == 2) {
+          sdao.completeShipping(Long.parseLong(orderNo));
+          count = 0;
+          this.stopScheduler();
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    };
+  }
+
+  private Trigger getTrigger() {
+    // 작업 주기 설정
+    return new PeriodicTrigger(10, TimeUnit.MINUTES);
+  }
 
 }

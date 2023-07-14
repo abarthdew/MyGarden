@@ -16,65 +16,65 @@ import my.garden.service.AdminService;
 @Service
 public class AdminServiceImpl implements AdminService {
 
-	@Autowired
-	AdminDAO dao;
+  @Autowired
+  AdminDAO dao;
 
-	@Autowired
-	ScheduleTask schedule;
+  @Autowired
+  ScheduleTask schedule;
 
-	public List<AdminMemDTO> serviceAllMembers() throws Exception{
-		return dao.allMembers();
-	}
+  public List<AdminMemDTO> serviceAllMembers() throws Exception {
+    return dao.allMembers();
+  }
 
-	public int serviceTotalSale() throws Exception{	
-		return dao.totalSale();
-	}
+  public int serviceTotalSale() throws Exception {
+    return dao.totalSale();
+  }
 
-	public int serviceTotalCancel() throws Exception{
-		return dao.totalCancel();
-	}
+  public int serviceTotalCancel() throws Exception {
+    return dao.totalCancel();
+  }
 
-	public List<ShopListDTO> servicePopularProduct() throws Exception{
-		return dao.popularProduct();
-	}
+  public List<ShopListDTO> servicePopularProduct() throws Exception {
+    return dao.popularProduct();
+  }
 
-	public int serviceTotalSaleCount() throws Exception{
-		return dao.totalSaleCount();
-	}
+  public int serviceTotalSaleCount() throws Exception {
+    return dao.totalSaleCount();
+  }
 
-	public int serviceStatCheck(String stat) throws Exception{
-		return dao.statCheck(stat);
-	}
+  public int serviceStatCheck(String stat) throws Exception {
+    return dao.statCheck(stat);
+  }
 
-	public List<ShopListDTO> serviceOrderCheckList(String stat) throws Exception{
-		return dao.orderCheckList(stat);
-	}
+  public List<ShopListDTO> serviceOrderCheckList(String stat) throws Exception {
+    return dao.orderCheckList(stat);
+  }
 
-	public List<PrivateGardenDTO> servicePopularHerb() throws Exception{
-		return dao.popularHerb();	
-	}
+  public List<PrivateGardenDTO> servicePopularHerb() throws Exception {
+    return dao.popularHerb();
+  }
 
 
-	@Transactional("txManager")
-	public int serviceUpdateOrder(String orderNo, String stat) throws Exception{
-		if(stat.equals("배송중")) {
-			schedule.setCount(0);
-			schedule.startScheduler(orderNo);	
-		}
-		return dao.updateOrder(orderNo, stat);
-	}
+  @Transactional("txManager")
+  public int serviceUpdateOrder(String orderNo, String stat) throws Exception {
+    if (stat.equals("배송중")) {
+      schedule.setCount(0);
+      schedule.startScheduler(orderNo);
+    }
+    return dao.updateOrder(orderNo, stat);
+  }
 
-	public int serviceUpdateSubscribe(String orderNo, String stat) throws Exception{
-		return dao.updateSubscribe(orderNo, stat);
-	}
+  public int serviceUpdateSubscribe(String orderNo, String stat) throws Exception {
+    return dao.updateSubscribe(orderNo, stat);
+  }
 
-	public List<PrivateGardenDTO> servicePrivateList() throws Exception{
-		return dao.privateList();
-	}
+  public List<PrivateGardenDTO> servicePrivateList() throws Exception {
+    return dao.privateList();
+  }
 
-	@Override
-	public List<ShopListDTO> serviceSubscribeCheckList(String stat) throws Exception {
-		return dao.subscribeCheckList(stat);
-	}
+  @Override
+  public List<ShopListDTO> serviceSubscribeCheckList(String stat) throws Exception {
+    return dao.subscribeCheckList(stat);
+  }
 
 }
